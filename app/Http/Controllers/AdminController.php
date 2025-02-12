@@ -10,8 +10,8 @@ class AdminController extends Controller
 {
     function index(){
         return view("dashboard.dashboard-admin");
-
-echo "<a href='logout'>log out</a>";
+        
+        echo "<a href='logout'>log out</a>";
     }
     function dosen(){
         echo "Welcome Dosen";
