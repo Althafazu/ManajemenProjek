@@ -10,7 +10,7 @@ class GanttController extends Controller
 {
     public function index($apId)
     {
-        $aktualPlan = AktualPlan::with(['tasks' => function($query) {
+        $aktualPlan = AktualPlan::with(['tasks.fase' => function($query) {
             $query->orderBy('apf_id', 'asc');
         }])->findOrFail($apId);
         
@@ -19,15 +19,14 @@ class GanttController extends Controller
 
     public function getGanttData($apId)
     {
-        $aktualPlan = AktualPlan::with(['tasks' => function($query) {
+        $aktualPlan = AktualPlan::with(['tasks.fase' => function($query) {
             $query->orderBy('apf_id', 'asc');
         }])->findOrFail($apId);
 
         $ganttData = $aktualPlan->tasks->map(function ($task) {
-            // Plan bar
             $planData = [
                 'id' => $task->tsk_id . '-plan',
-                'name' => '📅 Task ' . $task->apf_id . ' (Plan)',
+                'name' => '📅 ' . $task->fase->nama_fase . ' (Plan)',
                 'start' => $task->plan_start,
                 'end' => $task->plan_end,
                 'progress' => 0,
@@ -35,6 +34,7 @@ class GanttController extends Controller
                 'originalTask' => [
                     'id' => $task->tsk_id,
                     'apf_id' => $task->apf_id,
+                    'nama_fase' => $task->fase->nama_fase,
                     'keterangan' => $task->keterangan,
                     'status' => $task->status,
                     'progress' => $task->progress,
@@ -46,7 +46,7 @@ class GanttController extends Controller
             if ($task->actual_start && $task->actual_end) {
                 $actualData = [
                     'id' => $task->tsk_id . '-actual',
-                    'name' => '✅ Task ' . $task->apf_id . ' (Actual)',
+                    'name' => '✅ ' . $task->fase->nama_fase . ' (Actual)',
                     'start' => $task->actual_start,
                     'end' => $task->actual_end,
                     'progress' => floatval($task->progress),
@@ -55,6 +55,7 @@ class GanttController extends Controller
                     'originalTask' => [
                         'id' => $task->tsk_id,
                         'apf_id' => $task->apf_id,
+                        'nama_fase' => $task->fase->nama_fase,
                         'keterangan' => $task->keterangan,
                         'status' => $task->status,
                         'progress' => $task->progress,
@@ -77,10 +78,8 @@ class GanttController extends Controller
 
         $task = Task::findOrFail($taskId);
         
-        // Update progress
         $task->progress = $request->progress;
         
-        // Update status based on progress
         if ($request->progress == 100) {
             $task->status = 'Selesai';
         } elseif ($request->progress > 0) {

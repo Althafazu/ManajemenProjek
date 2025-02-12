@@ -44,13 +44,20 @@ Route::post('/datatrials', [DatatrialController::class, 'store'])->name('datatri
 Route::get('/datatrials/download/{id}', [DatatrialController::class, 'download'])->name('datatrials.download');
 Route::get('/datatrials/{id}', [DatatrialController::class, 'show'])->name('datatrials.show');
 
-Route::prefix('gantt')->group(function() {
-    Route::get('/actual-plan/{apId}', [App\Http\Controllers\GanttController::class, 'index'])->name('gantt.index');
-    Route::get('/data/{apId}', [App\Http\Controllers\GanttController::class, 'getGanttData'])->name('gantt.data');
-    Route::post('/update-actual/{id}', [TaskController::class, 'update'])->name('gantt.update-actual');
+
+Route::prefix('ap')->group(function() {
+    Route::get('/{apId}', [App\Http\Controllers\GanttController::class, 'index'])->name('tasks.index');
+    Route::get('/data/{apId}', [App\Http\Controllers\GanttController::class, 'getGanttData']);
+    Route::get('/{apId}/create', [TaskController::class, 'create'])->name('tasks.create');
+    Route::post('/{ap_id}/store', [TaskController::class, 'store'])->name('tasks.store');
 });
 
-// Testing route for Gantt chart (development only)
-Route::get('/test-gantt', function() {
-    return redirect()->route('gantt.index', ['apId' => 1]);
-});
+
+// Route::prefix('ap/{ap_id}/tasks')->group(function () {
+//     Route::post('/', [TaskController::class, 'store']);
+//     Route::put('/{id}', [TaskController::class, 'update']);
+//     Route::delete('/{id}', [TaskController::class, 'destroy']);
+//     Route::put('/{id}/status', [TaskController::class, 'updateStatus']);
+//     Route::get('/fases', [TaskController::class, 'getFases']);
+// });
+
