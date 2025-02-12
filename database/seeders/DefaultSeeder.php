@@ -5,11 +5,12 @@ namespace Database\Seeders;
 use App\Models\AktualPlan;
 use App\Models\Fase;
 use App\Models\Kelompok;
-use App\Models\MsUser;
+use App\Models\User;
 use App\Models\Project;
 use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DefaultSeeder extends Seeder
 {
@@ -41,16 +42,16 @@ class DefaultSeeder extends Seeder
         ]);
 
         // buat user
-        MsUser::create([
+        User::create([
             'usr_name' => 'daffa',
-            'usr_password' => '123',
+            'usr_password' => Hash::make('123'),
             'kel_id'=>'1',
             'rol_id'=>'ROL23',
             'usr_status'=>'aktif',
         ]);
-        MsUser::create([
+        User::create([
             'usr_name' => 'himawan',
-            'usr_password' => '123',
+            'usr_password' => Hash::make('123'),
             'rol_id'=>'ROL25',
             'usr_status'=>'aktif',
         ]);

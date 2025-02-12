@@ -45,11 +45,11 @@
                 <div class="card login-card p-4">
                     <img src="assets\images\logo.png" alt="Logo" class="login-logo">
                     <h4 class="login-title">SISTEM MANAJEMEN PROYEK</h4>
-                <form action="" method="POST">
+                <form action="{{ route('login.process') }}" method="POST">
                             @csrf
                             <div class="mb-3">
-                                <label for="name" class="form-label">Username <span class="text-danger">*</span> </label>
-                                <input type="text" name="name" id="name" class="form-control" aria-describedby="username-help" autofocus placeholder="NIM / NPK">
+                                <label for="username" class="form-label">Username <span class="text-danger">*</span> </label>
+                                <input type="text" name="username" id="username" class="form-control" aria-describedby="username-help" autofocus placeholder="NIM / NPK">
                                 @error('username')
                                     <span id="username-help" class="form-text text-danger">{{ $message }}</span>
                                 @enderror

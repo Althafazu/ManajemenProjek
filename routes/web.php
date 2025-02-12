@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function(){
     Route::get('/', [LoginController::class,'index'])->name ('login');
-    Route::post('/', [LoginController::class,'login']);
+    Route::post('/login', [LoginController::class,'login'])->name('login.process');
 });
 Route::get('/home', function(){
     return view('dashboard.dashboard-proyek');

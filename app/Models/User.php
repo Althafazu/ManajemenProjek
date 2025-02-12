@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class MsUser extends Authenticatable
+class User extends Authenticatable
 {
     use Notifiable;
 
@@ -20,6 +20,16 @@ class MsUser extends Authenticatable
         'usr_status'
     ];
 
+    public function getAuthPassword()
+    {
+        return $this->usr_password;
+    }
+
+    public function getAuthIdentifierName()
+    {
+        return 'usr_name';
+    }
+
     protected $hidden = [
         'usr_password',
         'remember_token',
@@ -33,5 +43,10 @@ class MsUser extends Authenticatable
     public function role()
     {
         return $this->belongsTo(Role::class, 'rol_id', 'rol_id');
+    }
+
+    public function hasRole($roleId)
+    {
+        return $this->rol_id === $roleId;
     }
 }
