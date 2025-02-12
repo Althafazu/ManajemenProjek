@@ -10,8 +10,9 @@ class Task extends Model
     protected $primaryKey = 'tsk_id';
     protected $fillable = [
         'ap_id',
-        'fase_id',
+        'apf_id',
         'pic',
+        'progress',
         'plan_start',
         'plan_end',
         'actual_start',
@@ -27,7 +28,7 @@ class Task extends Model
 
     public function fase()
     {
-        return $this->belongsTo(Fase::class, 'fase_id', 'apf_id');
+        return $this->belongsTo(Fase::class, 'apf_id', 'apf_id');
     }
 
     public function picUser()

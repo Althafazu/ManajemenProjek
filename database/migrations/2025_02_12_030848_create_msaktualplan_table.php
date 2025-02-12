@@ -42,6 +42,7 @@ return new class extends Migration
             $table->unsignedBigInteger('ap_id');
             $table->unsignedBigInteger('apf_id');
             $table->unsignedBigInteger('pic');
+            $table->decimal('progress');
             $table->date('plan_start');
             $table->date('plan_end');
             $table->date('actual_start')->nullable();
@@ -53,7 +54,6 @@ return new class extends Migration
             $table->foreign('apf_id')->references('apf_id')->on('msfase')->onDelete('cascade');
             $table->unique(['ap_id', 'apf_id']);
         });
-
     }
 
     /**

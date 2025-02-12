@@ -8,6 +8,7 @@ use App\Models\Kelompok;
 use App\Models\User;
 use App\Models\Project;
 use App\Models\Role;
+use App\Models\Task;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -81,5 +82,15 @@ class DefaultSeeder extends Seeder
 
 
         // buat Task
+        Task::create([
+            'ap_id' => 1,
+            'apf_id' => 1,
+            'pic' => 1,
+            'progress' => 100,
+            'plan_start' => '2025-01-03',
+            'plan_end' => '2025-01-20',
+            'actual_start' => '2025-01-10',
+            'actual_end' => '2025-01-25',
+        ]);
     }
 }

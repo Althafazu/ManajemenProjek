@@ -5,6 +5,7 @@ use App\Http\Controllers\DatatrialController;
 use App\Http\Controllers\GamtekController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QCController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function(){
@@ -43,5 +44,13 @@ Route::post('/datatrials', [DatatrialController::class, 'store'])->name('datatri
 Route::get('/datatrials/download/{id}', [DatatrialController::class, 'download'])->name('datatrials.download');
 Route::get('/datatrials/{id}', [DatatrialController::class, 'show'])->name('datatrials.show');
 
+Route::prefix('gantt')->group(function() {
+    Route::get('/actual-plan/{apId}', [App\Http\Controllers\GanttController::class, 'index'])->name('gantt.index');
+    Route::get('/data/{apId}', [App\Http\Controllers\GanttController::class, 'getGanttData'])->name('gantt.data');
+    Route::post('/update-actual/{id}', [TaskController::class, 'update'])->name('gantt.update-actual');
+});
 
-
+// Testing route for Gantt chart (development only)
+Route::get('/test-gantt', function() {
+    return redirect()->route('gantt.index', ['apId' => 1]);
+});

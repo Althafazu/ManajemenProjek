@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AktualPlan;
 use Illuminate\Http\Request;
 
-class ActualPlanController extends Controller
+class AktualPlanController extends Controller
 {
     public function index()
     {
