@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('msprojek', function (Blueprint $table) {
             $table->id('prj_id');
-            $table->string('prj_no_spk', 50)->unique();
+            $table->string('prj_id_alternative', 50)->unique();
             $table->string('prj_nama', 100);
             $table->enum('prj_jenis', ['Internal', 'Eksternal'])->default('Internal');
             $table->enum('prj_status', ['Sedang Berlangsung', 'Selesai', 'Batal'])->default('Sedang Berlangsung');

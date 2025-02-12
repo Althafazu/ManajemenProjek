@@ -18,7 +18,7 @@ return new class extends Migration
         });
         
         Schema::create('msrole', function (Blueprint $table) {
-            $table->unsignedBigInteger('rol_id')->autoIncrement();
+            $table->string('rol_id')->primary();
             $table->string('rol_name');
             $table->timestamps();
         });
@@ -27,8 +27,8 @@ return new class extends Migration
             $table->id('usr_id');
             $table->string('usr_name')->unique();
             $table->string('usr_password');
-            $table->unsignedBigInteger('kel_id');
-            $table->unsignedBigInteger('rol_id');
+            $table->unsignedBigInteger('kel_id')->nullable();
+            $table->string('rol_id');
             $table->enum('usr_status', ['aktif', 'tidak aktif'])->default('aktif');
             $table->rememberToken();
             $table->timestamps();

@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
 
-    protected $table = 'projects';
+    protected $table = 'msprojek';
     protected $primaryKey = 'prj_id';
 
     protected $fillable = [
