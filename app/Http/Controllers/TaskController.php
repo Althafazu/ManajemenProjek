@@ -9,6 +9,9 @@ use App\Models\MsAktualPlan;
 use App\Models\MsFase;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+use function Laravel\Prompts\select;
 
 class TaskController extends Controller
 {
@@ -129,5 +132,30 @@ class TaskController extends Controller
         })->get();
         
         return response()->json($fases);
+    }
+
+    public function getAll($ap_id)
+    {
+        $tasks = DB::select("
+        SELECT 
+            t.tsk_id,
+            f.nama_fase,
+            u.usr_name,
+            t.plan_start,
+            t.plan_end,
+            t.actual_start,
+            t.actual_end,
+            t.progress,
+            t.keterangan,
+            t.status
+        FROM mstask t, msfase f, msuser u
+        WHERE 
+            f.apf_id = t.apf_id
+            AND u.usr_id = t.pic
+            AND t.ap_id = ?
+        ORDER BY f.apf_id ASC
+    ", [$ap_id]);
+
+    return response()->json($tasks);
     }
 }

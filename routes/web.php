@@ -6,6 +6,7 @@ use App\Http\Controllers\GamtekController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\QCController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\GanttController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['guest'])->group(function(){
@@ -46,18 +47,13 @@ Route::get('/datatrials/{id}', [DatatrialController::class, 'show'])->name('data
 
 
 Route::prefix('ap')->group(function() {
-    Route::get('/{apId}', [App\Http\Controllers\GanttController::class, 'index'])->name('tasks.index');
-    Route::get('/data/{apId}', [App\Http\Controllers\GanttController::class, 'getGanttData']);
+    Route::get('/{apId}', [GanttController::class, 'index'])->name('tasks.index');
+    Route::get('/data/{apId}', [GanttController::class, 'getGanttData']);
+    Route::get('/getAll/{ap_id}', [TaskController::class, 'getAll']);
+
+    
     Route::get('/{apId}/create', [TaskController::class, 'create'])->name('tasks.create');
-    Route::post('/{ap_id}/store', [TaskController::class, 'store'])->name('tasks.store');
+    Route::post('/{apId}/store', [TaskController::class, 'store'])->name('tasks.store');
+
+    Route::put('/{apId}/update', [TaskController::class, 'update'])->name('tasks.update');
 });
-
-
-// Route::prefix('ap/{ap_id}/tasks')->group(function () {
-//     Route::post('/', [TaskController::class, 'store']);
-//     Route::put('/{id}', [TaskController::class, 'update']);
-//     Route::delete('/{id}', [TaskController::class, 'destroy']);
-//     Route::put('/{id}/status', [TaskController::class, 'updateStatus']);
-//     Route::get('/fases', [TaskController::class, 'getFases']);
-// });
-
