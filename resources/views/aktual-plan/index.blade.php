@@ -122,13 +122,9 @@ const taskList = {
                             ${task.actual_start ? 
                                 `<div>Actual: ${this.formatDate(task.actual_start)} - ${this.formatDate(task.actual_end) || 'Ongoing'}</div>` 
                                 : ''}
-                            ${task.keterangan ? `<div class="mt-1">Keterangan: ${task.keterangan}</div>` : ''}
                         </div>
                     </div>
-                    <a href="/tasks/${apId}/${task.tsk_id}/edit" 
-                       class="btn btn-sm btn-outline-secondary">
-                        Edit
-                    </a>
+                    <a href="/task/${task.tsk_id}/edit" class="btn btn-sm btn-outline-secondary"> Edit </a>
                 </div>
             </div>
         `).join('');

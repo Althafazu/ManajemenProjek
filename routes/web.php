@@ -54,6 +54,9 @@ Route::prefix('ap')->group(function() {
     
     Route::get('/{apId}/create', [TaskController::class, 'create'])->name('tasks.create');
     Route::post('/{apId}/store', [TaskController::class, 'store'])->name('tasks.store');
+});
 
-    Route::put('/{apId}/update', [TaskController::class, 'update'])->name('tasks.update');
+Route::prefix('task')->group(function() {
+    Route::get('/{tskId}/edit', [TaskController::class, 'edit'])->name('tasks.edit');
+    Route::put('/{tskId}/update', [TaskController::class, 'update'])->name('tasks.update');
 });

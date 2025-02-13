@@ -47,7 +47,6 @@ return new class extends Migration
             $table->date('plan_end');
             $table->date('actual_start')->nullable();
             $table->date('actual_end')->nullable();
-            $table->string('keterangan', 200)->nullable();
             $table->string('status')->default('Menunggu Dikerjakan');
             $table->timestamps();
 

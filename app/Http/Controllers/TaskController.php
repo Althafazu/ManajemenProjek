@@ -54,7 +54,6 @@ class TaskController extends Controller
             'pic' => 'required|exists:msuser,usr_id',
             'plan_start' => 'required|date|before_or_equal:plan_end',
             'plan_end' => 'required|date|after_or_equal:plan_start',
-            'keterangan' => 'nullable|string|max:200'
         ]);
         
         $task = Task::create([
@@ -63,7 +62,6 @@ class TaskController extends Controller
             'pic' => $request->pic,
             'plan_start' => $request->plan_start,
             'plan_end' => $request->plan_end,
-            'keterangan' => $request->keterangan,
             'status' => 'Menunggu Dikerjakan',
             'progress' => 0
         ]);
@@ -72,55 +70,31 @@ class TaskController extends Controller
         ->route('tasks.index', $ap_id)
         ->with('success', 'Task berhasil dibuat');
     }
-
-    public function update(Request $request, $ap_id, $id)
+    
+    public function edit($taskId) 
     {
-        $request->validate([
-            'actualStartDate' => 'nullable|date|before_or_equal:actualEndDate',
-            'actualEndDate' => 'nullable|date|after_or_equal:actualStartDate',
-            'progress' => 'required|integer|min:0|max:100',
-            'status' => 'required|in:Menunggu Dikerjakan,Sedang Dikerjakan,Selesai'
-        ]);
+        $task = Task::with(['aktualPlan', 'fase', 'picUser'])
+        ->where('tsk_id', $taskId)
+        ->firstOrFail();
         
-        $task = Task::where('ap_id', $ap_id)
-            ->findOrFail($id);
-        
-        $task->update([
-            'actual_start' => $request->actualStartDate,
-            'actual_end' => $request->actualEndDate,
-            'progress' => $request->progress,
-            'status' => $request->status
-        ]);
-        
-        return response()->json([
-            'success' => true,
-            'task' => $task
-        ]);
+        return view('aktual-plan.edit', compact('task'));
     }
-
-    public function destroy($ap_id, $id)
+    
+    public function update(Request $request, $taskId)
     {
-        $task = Task::where('ap_id', $ap_id)
-            ->findOrFail($id);
-        $task->delete();
+        $task = Task::findOrFail($taskId);
         
-        return response()->json(null, 204);
-    }
-
-    public function updateStatus(Request $request, $ap_id, $id)
-    {
-        $request->validate([
-            'status' => 'required|in:Menunggu Dikerjakan,Sedang Dikerjakan,Selesai',
-            'actual_start' => 'required_if:status,Sedang Dikerjakan|date',
-            'actual_end' => 'required_if:status,Selesai|date'
+        $validated = $request->validate([
+            'actual_start' => 'required|date|before_or_equal:actual_end',
+            'actual_end' => 'required|date|after_or_equal:actual_start',
+            'progress' => 'required|numeric|min:0|max:100',
         ]);
-
-        $task = Task::where('ap_id', $ap_id)
-            ->findOrFail($id);
-            
-        $task->update($request->all());
         
-        return response()->json($task);
+        $task->update($validated);
+        
+        return redirect()
+        ->route('tasks.index', $task->ap_id)
+        ->with('success', 'Task berhasil diperbarui');
     }
 
     public function getFases($ap_id)
@@ -146,7 +120,6 @@ class TaskController extends Controller
             t.actual_start,
             t.actual_end,
             t.progress,
-            t.keterangan,
             t.status
         FROM mstask t, msfase f, msuser u
         WHERE 

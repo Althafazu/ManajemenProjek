@@ -35,7 +35,6 @@ class GanttController extends Controller
                     'id' => $task->tsk_id,
                     'apf_id' => $task->apf_id,
                     'nama_fase' => $task->fase->nama_fase,
-                    'keterangan' => $task->keterangan,
                     'status' => $task->status,
                     'progress' => $task->progress,
                     'pic' => $task->pic
@@ -56,7 +55,6 @@ class GanttController extends Controller
                         'id' => $task->tsk_id,
                         'apf_id' => $task->apf_id,
                         'nama_fase' => $task->fase->nama_fase,
-                        'keterangan' => $task->keterangan,
                         'status' => $task->status,
                         'progress' => $task->progress,
                         'pic' => $task->pic

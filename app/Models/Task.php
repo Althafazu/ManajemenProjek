@@ -17,7 +17,6 @@ class Task extends Model
         'plan_end',
         'actual_start',
         'actual_end',
-        'keterangan',
         'status'
     ];
     
@@ -33,6 +32,6 @@ class Task extends Model
 
     public function picUser()
     {
-        return $this->belongsTo(User::class, 'pic', 'id');
+        return $this->belongsTo(User::class, 'pic', 'usr_id');
     }
 }
